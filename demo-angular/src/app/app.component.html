@@ -1,0 +1,84 @@
+<div class="app-container">
+  <div class="task-card">
+    <header class="task-header">
+      <h1>Mes tâches</h1>
+      <p>Organisez vos tâches simplement</p>
+    </header>
+
+    <!-- Erreur -->
+    <div class="error-message" *ngIf="error">
+      {{ error }}
+    </div>
+
+    <!-- Chargement -->
+    <div class="loading" *ngIf="loading">Chargement des tâches...</div>
+
+    <!-- Liste vide -->
+    <div class="empty-state" *ngIf="!loading && tasks.length === 0">
+      <div class="empty-icon">✓</div>
+      <p>Aucune tâche pour le moment</p>
+      <span>Ajoutez votre première tâche ci-dessous.</span>
+    </div>
+
+    <!-- Liste des tâches -->
+    <ul class="task-list" *ngIf="!loading && tasks.length > 0">
+      <li
+        class="task-item"
+        *ngFor="let task of tasks"
+        [class.task-completed]="task.completed"
+      >
+        <input
+          class="task-checkbox"
+          type="checkbox"
+          [checked]="task.completed"
+          (change)="toggleTask(task)"
+        />
+
+        <!-- Mode édition -->
+        <div class="task-edit" *ngIf="editingTaskId === task.id">
+          <input class="edit-input" type="text" [(ngModel)]="task.title" />
+
+          <div class="task-actions">
+            <button class="btn btn-save" (click)="saveTask(task)">
+              Enregistrer
+            </button>
+
+            <button class="btn btn-cancel" (click)="cancelEditing()">
+              Annuler
+            </button>
+          </div>
+        </div>
+
+        <!-- Mode affichage -->
+        <div class="task-content" *ngIf="editingTaskId !== task.id">
+          <span class="task-title">
+            {{ task.title }}
+          </span>
+
+          <div class="task-actions">
+            <button class="btn btn-edit" (click)="startEditing(task)">
+              Modifier
+            </button>
+
+            <button class="btn btn-delete" (click)="deleteTask(task)">
+              Supprimer
+            </button>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <!-- Ajout d'une tâche -->
+    <div class="add-task">
+      <input
+        class="add-input"
+        type="text"
+        [(ngModel)]="newTaskTitle"
+        placeholder="Ajouter une nouvelle tâche..."
+        (keyup.enter)="addTask()"
+      />
+
+      <button class="btn btn-add" (click)="addTask()">Ajouter</button>
+    </div>
+  </div>
+</div>

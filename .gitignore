@@ -1,0 +1,16 @@
+# Angular
+demo-angular/node_modules/
+demo-angular/dist/
+
+# Maven
+demo_springmvc/target/
+
+# IDE
+.vscode/
+.idea/
+
+# Local configuration
+demo_springmvc/src/main/resources/application.properties
+
+# Logs
+*.log

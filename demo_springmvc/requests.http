@@ -1,0 +1,8 @@
+# Test file for http requests
+POST http://localhost:8082/demo_springmvc/api/tasks
+Content-Type: application/json
+
+{
+    "title": "Tester POST via MyBatis",
+    "completed": false
+  },
