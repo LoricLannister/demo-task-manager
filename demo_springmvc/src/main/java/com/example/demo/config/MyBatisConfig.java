@@ -2,6 +2,7 @@ package com.example.demo.config;
 
 import javax.sql.DataSource;
 
+import org.apache.ibatis.logging.stdout.StdOutImpl;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
@@ -32,8 +33,7 @@ public class MyBatisConfig {
     @Bean
     public DataSource dataSource() {
 
-        DriverManagerDataSource dataSource
-                = new DriverManagerDataSource();
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
         dataSource.setDriverClassName(driver);
         dataSource.setUrl(url);
@@ -44,11 +44,9 @@ public class MyBatisConfig {
     }
 
     @Bean
-    public SqlSessionFactory sqlSessionFactory(
-            DataSource dataSource) throws Exception {
+    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
 
-        SqlSessionFactoryBean factory
-                = new SqlSessionFactoryBean();
+        SqlSessionFactoryBean factory = new SqlSessionFactoryBean();
 
         factory.setDataSource(dataSource);
 
@@ -56,6 +54,13 @@ public class MyBatisConfig {
                 new PathMatchingResourcePatternResolver()
                         .getResources("classpath*:mapper/*.xml")
         );
+
+        // We use the fully qualified class name to avoid collision with Spring's @Configuration
+        org.apache.ibatis.session.Configuration mybatisConfig = new org.apache.ibatis.session.Configuration();
+        mybatisConfig.setLogImpl(StdOutImpl.class);
+
+        // Association of the configuration to the 'factory' instance
+        factory.setConfiguration(mybatisConfig);
 
         return factory.getObject();
     }

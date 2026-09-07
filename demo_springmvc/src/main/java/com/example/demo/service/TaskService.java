@@ -17,20 +17,20 @@ public class TaskService {
     }
 
     public List<Task> findAll() {
-        return taskMapper.findAll();
+        return taskMapper.getAllDatabase();
     }
 
     public Task save(Task task) {
-        taskMapper.insert(task);
+        taskMapper.insertionInDatabase(task);
         return task;
     }
 
     public Task update(Task task) {
-        taskMapper.update(task);
+        taskMapper.updateInDatabase(task);
         return task;
     }
 
     public void delete(Long id) {
-        taskMapper.delete(id);
+        taskMapper.deleteFromDatabase(id);
     }
 }

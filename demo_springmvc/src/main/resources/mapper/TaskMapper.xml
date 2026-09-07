@@ -5,7 +5,15 @@
 
 <mapper namespace="com.example.demo.mapper.TaskMapper">
 
-    <insert id="insert"
+    <select id="selectById" parameterType="long" resultType="com.example.demo.model.Task">
+        SELECT ID, TITLE, COMPLETED FROM TASK WHERE ID = #{id}
+    </select>
+
+    <select id="getAllDatabase" resultType="com.example.demo.model.Task">
+        SELECT ID, TITLE, COMPLETED FROM TASK ORDER BY ID
+    </select>
+
+    <insert id="insertionInDatabase"
             parameterType="com.example.demo.model.Task">
 
         <selectKey keyProperty="id"
@@ -29,7 +37,7 @@
 
     </insert>
 
-    <update id="update"
+    <update id="updateInDatabase"
         parameterType="com.example.demo.model.Task">
 
         UPDATE TASK
@@ -40,7 +48,7 @@
 
     </update>
 
-    <delete id="delete" parameterType="long">
+    <delete id="deleteFromDatabase" parameterType="long">
 
         DELETE FROM TASK
         WHERE ID = #{id}
